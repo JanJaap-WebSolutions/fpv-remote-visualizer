@@ -3,6 +3,8 @@
 #include <bluefairy.h>
 
 #include "const.h"
+#include "soc/soc.h"
+#include "soc/rtc_cntl_reg.h"
 #include "logger.hpp"
 #include "app-state.hpp"
 #include "led-controller.hpp"
@@ -11,14 +13,12 @@
 #include "states/animate/animate.state.hpp"
 #include "states/lamp/lamp.state.hpp"
 #include "rx.hpp"
-#include "head-tracker.hpp"
 
 bluefairy::Scheduler logicScheduler;
 bluefairy::Scheduler headTrackerScheduler;
 bluefairy::Scheduler ledScheduler;
 AppStateMachine stateMachine;
 LedController ledController;
-HeadTracker headTracker;
 
 OTAState otaState(&stateMachine, &logicScheduler, &ledController);
 BootingState bootingState(&stateMachine, &logicScheduler, &ledController);
@@ -65,6 +65,8 @@ void setup()
   Logger::getInstance().begin();
   Logger::getInstance().logLn("Welcome to CRSF Visualizer");
 
+  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
+
   setupStateMachine();
   RX::begin();
   logicScheduler.every(1, []() { RX::loop(); });
@@ -88,20 +90,6 @@ void setup()
   xTaskCreateUniversal(
       [] (void *pvParameter) {
           for (;;) {
-              headTrackerScheduler.loop();
-          }
-      },
-      "HeadTracker",
-      10000,
-      NULL,
-      1,
-      NULL,
-      -1
-  );
-
-  xTaskCreateUniversal(
-      [] (void *pvParameter) {
-          for (;;) {
               logicScheduler.loop();
           }
       },
@@ -112,25 +100,6 @@ void setup()
       NULL,
       -1
   );
-
-  headTracker.begin();
-  headTrackerScheduler.every(200, []() { 
-    //if (RX::setHeadTrackerOrigin) {
-      //headTracker.setOrigin();
-    //}
-
-    headTracker.tick();
-  });
-  headTrackerScheduler.every(200, []() {
-    if (RX::sticksAreAtTopCenter && !RX::isArmed) {
-      headTracker.setOrigin();
-      headTracker.enableFeedback();
-    }
-
-    if (RX::sticksAreAtBottomCenter && !RX::isArmed) {
-      headTracker.disableFeedback();
-    }
-  });
 
   Logger::getInstance().logLn("setup() done, starting loop()");
 }

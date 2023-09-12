@@ -18,7 +18,7 @@ void AnimateState::enter() {
     Logger::getInstance().logLn("AnimateState::enter() - done");
 }
 
-void AnimateState::updateArmedAnimation() {
+void AnimateState::enableArmedAnimation() {
     if (_activeAnimation != ANIMATION_TYPE_ARMED) {
         Logger::getInstance().logLn("AnimateState::updateAnimation() - setting armed animation");
         _ledController->setAnimation(&_armedAnimation);
@@ -44,7 +44,7 @@ void AnimateState::updateAnimation() {
     }
 
     if (RX::isArmed) {
-        updateArmedAnimation();
+        this->enableArmedAnimation();
         return;
     }
 

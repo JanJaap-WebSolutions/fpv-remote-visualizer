@@ -11,6 +11,7 @@ void OTAState::waitForWifiConnection() {
         Logger::getInstance().log("IP address: ");
         Logger::getInstance().logLn(WiFi.localIP().toString());
         wifiConnected = true;
+        _ledController->setBrightness(50);
         _ledController->setAnimation(&_wifiReadyAnimation);
 
         enableOTALibrary();

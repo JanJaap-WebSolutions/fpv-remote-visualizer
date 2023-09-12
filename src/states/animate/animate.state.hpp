@@ -4,7 +4,7 @@
 
 #include "../basic.state.hpp"
 #include "../../animations/single-color-breathing-animation.hpp"
-#include "../../animations/walking-rainbow-stick-reactive-animation.hpp"
+#include "../../animations/stick-reactive-animation.hpp"
 #include "const.h"
 
 enum AnimationType {
@@ -33,12 +33,12 @@ class AnimateState: public BasicState {
         void leave();
     
     private:
-        WalkingRainbowStickReactiveAnimation _armedAnimation;
+        StickReactiveAnimation _armedAnimation;
         SingleColorBreathingAnimation _disarmedAnimation;
         bluefairy::TaskNode *_updateTask;
         bluefairy::TaskNode *_lampTask;
         AnimationType _activeAnimation;
 
         void updateAnimation();
-        void updateArmedAnimation();
+        void enableArmedAnimation();
 };

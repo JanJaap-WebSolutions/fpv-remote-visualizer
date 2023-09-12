@@ -4,9 +4,11 @@
 
 void LedController::begin() {
     Logger::getInstance().logLn("Setup LED...");
-    FastLED.addLeds<LED_TYPE, LED_PIN, LED_COLOR_ORDER>(this->leds, NUM_LEDS);
+    FastLED.addLeds<LEFT_STICK_LED_TYPE, LEFT_STICK_LED_PIN, LEFT_STICK_LED_COLOR_ORDER>(this->leftStickLeds, LEFT_STICK_NUM_LEDS);
+    FastLED.addLeds<RIGHT_STICK_LED_TYPE, RIGHT_STICK_LED_PIN, RIGHT_STICK_LED_COLOR_ORDER>(this->rightStickLeds, RIGHT_STICK_NUM_LEDS);
+    
     // FastLED.setCorrection(TypicalLEDStrip);
-    // FastLED.setMaxPowerInVoltsAndMilliamps(LED_VOLTS, LED_MAX_MILLIAMPS);
+    FastLED.setMaxPowerInVoltsAndMilliamps(LED_VOLTS, LED_MAX_MILLIAMPS);
     
     // make up for the blue case
     FastLED.setCorrection(CRGB(255, 255, 200));
@@ -22,18 +24,26 @@ void LedController::setAnimation(AnimationBase* animation, bool clear) {
     this->currentAnimation = animation;
     this->currentAnimation->begin(
         [this](int index, CRGB color) {
-            this->leds[NUM_LEDS - 1 - index] = color;
+            this->leftStickLeds[LEFT_STICK_NUM_LEDS - 1 - index] = color;
         },
         [this](int index) {
-            return this->leds[NUM_LEDS - 1 - index];
+            return this->leftStickLeds[LEFT_STICK_NUM_LEDS - 1 - index];
         },
         [this](int fadeAmount) {
-            fadeToBlackBy(this->leds, NUM_LEDS, fadeAmount);
+            fadeToBlackBy(this->leftStickLeds, LEFT_STICK_NUM_LEDS, fadeAmount);
+        },
+        [this](int index, CRGB color) {
+            this->rightStickLeds[RIGHT_STICK_NUM_LEDS - 1 - index] = color;
+        },
+        [this](int index) {
+            return this->rightStickLeds[RIGHT_STICK_NUM_LEDS - 1 - index];
+        },
+        [this](int fadeAmount) {
+            fadeToBlackBy(this->rightStickLeds, RIGHT_STICK_NUM_LEDS, fadeAmount);
         }
     );
 };
 
-int indexTest = 0;
 void LedController::tick() {
     if (this->currentAnimation == nullptr) {
         return;
@@ -66,12 +76,5 @@ void LedController::setBrightness(uint8_t newInputBrightness) {
 
     brightness = newBrightness;
     FastLED.setBrightness(brightness);
-    FastLED.show();
-};
-
-void LedController::fillSolidColor(CRGB color) {
-    for (int i = 0; i < NUM_LEDS; i++) {
-        this->leds[i] = color;
-    }
     FastLED.show();
 };

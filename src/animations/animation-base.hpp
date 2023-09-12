@@ -25,19 +25,35 @@ class AnimationBase {
     public:
         AnimationBase() {
             // set dummy as default
-            this->setLed = [](int index, CRGB color) {};
-            this->getLed = [](int index) { return CRGB::Black; };
-            this->fadeToBlack = [](int index) {};
+            this->setLeftStickLed = [](int index, CRGB color) {};
+            this->getLeftStickLed = [](int index) { return CRGB::Black; };
+            this->fadeLeftStickToBlack = [](int index) {};
+            this->setRightStickLed = [](int index, CRGB color) {};
+            this->getRightStickLed = [](int index) { return CRGB::Black; };
+            this->fadeRightStickToBlack = [](int index) {};
         };
-        void begin(SetLedFunc setLed, GetLedFunc getLed, FadeToBlackFunc fadeToBlack) {
-            this->setLed = setLed;
-            this->getLed = getLed;
-            this->fadeToBlack = fadeToBlack;
+        void begin(
+            SetLedFunc setLeftStickLed, 
+            GetLedFunc getLeftStickLed, 
+            FadeToBlackFunc fadeLeftStickToBlack,
+            SetLedFunc setRightStickLed,
+            GetLedFunc getRightStickLed,
+            FadeToBlackFunc fadeRightStickToBlack
+        ) {
+            this->setLeftStickLed = setLeftStickLed;
+            this->getLeftStickLed = getLeftStickLed;
+            this->fadeLeftStickToBlack = fadeLeftStickToBlack;
+            this->setRightStickLed = setRightStickLed;
+            this->getRightStickLed = getRightStickLed;
+            this->fadeRightStickToBlack = fadeRightStickToBlack;
         };
         virtual void tick() = 0;
     
     protected:
-        SetLedFunc setLed;
-        GetLedFunc getLed;
-        FadeToBlackFunc fadeToBlack;
+        SetLedFunc setLeftStickLed;
+        GetLedFunc getLeftStickLed;
+        FadeToBlackFunc fadeLeftStickToBlack;
+        SetLedFunc setRightStickLed;
+        GetLedFunc getRightStickLed;
+        FadeToBlackFunc fadeRightStickToBlack;
 };

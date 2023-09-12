@@ -9,6 +9,7 @@ class ProgressBarAnimation : public AnimationBase {
             this->barColor = barColor;
             this->backgroundColor = backgroundColor;
             this->maxLedIndexActive = 0;
+            this->totalLeds = LEFT_STICK_NUM_LEDS + RIGHT_STICK_NUM_LEDS;
         };
         void tick();
         void setProgress(uint8_t progress);
@@ -17,4 +18,5 @@ class ProgressBarAnimation : public AnimationBase {
         CRGB barColor;
         CRGB backgroundColor;
         int maxLedIndexActive;
+        int totalLeds;
 };

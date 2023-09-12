@@ -13,11 +13,11 @@ class LedController {
         void setAnimation(AnimationBase *animation, bool clear = true);
         void clear();
         void setBrightness(uint8_t brightness);
-        void fillSolidColor(CRGB color);
 
     private:
         AnimationBase* currentAnimation;
-        CRGBArray<NUM_LEDS> leds;
+        CRGBArray<LEFT_STICK_NUM_LEDS> leftStickLeds;
+        CRGBArray<RIGHT_STICK_NUM_LEDS> rightStickLeds;
         uint8_t brightness = 255;
         SolidColorAnimation _emptyAnimation = SolidColorAnimation(CRGB::Black);
 };

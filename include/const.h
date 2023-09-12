@@ -3,8 +3,8 @@
 #include <FastLED.h>
 
 // RX Communication -------------------------------
-#define RX_SERIAL_RX_PIN 36
-#define RX_SERIAL_TX_PIN 35
+#define RX_SERIAL_RX_PIN 5
+#define RX_SERIAL_TX_PIN 19
 // software serial on esp8266 is limited to 57600 baud for stable communication
 #define RX_BAUD 57600
 
@@ -33,13 +33,23 @@
 #define YAW_CHANNEL 4
 
 // LED -------------------------------------------
-#ifdef IS_GOGGLE
-    #define NUM_LEDS 28
-    #define LED_PIN 16
-    #define LED_VOLTS 5
-    #define LED_MAX_MILLIAMPS 500
-    #define LED_TYPE WS2812
-    #define LED_COLOR_ORDER GRB
+#define LED_VOLTS 5
+#define LED_MAX_MILLIAMPS 250
+
+#define LEFT_STICK_NUM_LEDS 35
+#define LEFT_STICK_LED_PIN 17
+#define LEFT_STICK_LED_TYPE WS2812
+#define LEFT_STICK_LED_COLOR_ORDER GRB
+#define LEFT_STICK_LED_START_OFFSET -9
+#define LEFT_STICK_LED_IS_INVERTED false
+
+#define RIGHT_STICK_NUM_LEDS 35
+#define RIGHT_STICK_LED_PIN 16
+#define RIGHT_STICK_LED_TYPE WS2812
+#define RIGHT_STICK_LED_COLOR_ORDER GRB
+#define RIGHT_STICK_LED_START_OFFSET -8
+#define RIGHT_STICK_LED_IS_INVERTED true
+
 // https://github.com/FastLED/FastLED/wiki/Pixel-reference#setting-hsv-colors-
 #define BOOT_ANIMATION_DURATION_MS 3000
 // #define LED_BRIGHTNESS 255 // sets the brightness to a constant value if you dont want to use a channel
@@ -58,14 +68,7 @@
 
 // how many times shall we try to connect to the wifi before we create a hotspot? (each attempt is 200ms)
 #define WIFI_MAX_CONNECT_ATTEMPTS 300 // 300 * 200ms = 1 minute
-#define WIFI_HOTSPOT_SSID "CRSF Visualizer"
+#define WIFI_HOTSPOT_SSID "Remote Visualizer"
 #define WIFI_HOTSPOT_PASSWORD "blinkyblink"
 // wifi will automatically shut down after 3 minutes of waiting for OTA connections
 #define WIFI_HOTSPOT_TIMEOUT 180000 // 3 minutes in ms (3 * 60 * 1000)
-
-// Head Tracker ----------------------------------
-
-#define HEAD_TRACKER_FEEDBACK_PIN 5
-#define HEAD_TRACKER_MAX_ANGLE_OFFSET 7
-#define HEAD_TRACKER_MPU_SDA_PIN 6
-#define HEAD_TRACKER_MPU_SCL_PIN 7

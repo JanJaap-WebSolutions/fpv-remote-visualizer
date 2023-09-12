@@ -15,9 +15,14 @@ void SingleColorBreathingAnimation::tick() {
             }
         }
 
-        for (int i = 0; i < NUM_LEDS; i++) {
+        for (int i = 0; i < LEFT_STICK_NUM_LEDS; i++) {
             this->color.v = this->brightness;
-            this->setLed(i, this->color);
+            this->setLeftStickLed(i, this->color);
+        }
+
+        for (int i = 0; i < RIGHT_STICK_NUM_LEDS; i++) {
+            this->color.v = this->brightness;
+            this->setRightStickLed(i, this->color);
         }
     }
 }
