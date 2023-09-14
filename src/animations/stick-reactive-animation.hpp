@@ -12,13 +12,18 @@ class StickReactiveAnimation : public AnimationBase {
         void tick();
 
     private:
-        void mapSticks();
-        void mapLeftStick();
-        void mapRightStick();
+        bool mapSticks();
         void render();
         int trimStickPos(int originalVal);
-        int degreeToIndex(int degree, int maxIndex, int offset);
+        int degreeToIndex(int degree, int maxIndex, int offset, bool isInverted);
         int stickPosToDegree(int stickPosUpDown, int stickPosLeftRight);
-        int leftStickTargetDegree;
+        bool mapLeftStick();
+        bool mapRightStick();
+        void renderRightStick();
+        void renderLeftStick();
+        int getRightStickLedIntensity(int ledIndex);
         int rightStickTargetDegree;
+        int leftStickHuePos = 0;
+        int leftStickIntensity;
+        void onStickChange();
 };

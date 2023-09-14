@@ -32,7 +32,7 @@ class AnimationBase {
             this->getRightStickLed = [](int index) { return CRGB::Black; };
             this->fadeRightStickToBlack = [](int index) {};
         };
-        void begin(
+        virtual void begin(
             SetLedFunc setLeftStickLed, 
             GetLedFunc getLeftStickLed, 
             FadeToBlackFunc fadeLeftStickToBlack,

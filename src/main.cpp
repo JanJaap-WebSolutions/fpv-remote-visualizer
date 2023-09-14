@@ -63,11 +63,13 @@ inline void setupStateMachine() {
 void setup()
 {
   Logger::getInstance().begin();
+
+  delay(1000);
+
   Logger::getInstance().logLn("Welcome to CRSF Visualizer");
 
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
 
-  setupStateMachine();
   RX::begin();
   logicScheduler.every(1, []() { RX::loop(); });
 
@@ -100,6 +102,8 @@ void setup()
       NULL,
       -1
   );
+
+  setupStateMachine();
 
   Logger::getInstance().logLn("setup() done, starting loop()");
 }

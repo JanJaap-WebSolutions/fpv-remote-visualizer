@@ -3,7 +3,7 @@
 #include <bluefairy.h>
 
 #include "../basic.state.hpp"
-#include "../../animations/single-color-breathing-animation.hpp"
+#include "../../animations/rainbow-color-breathing-animation.hpp"
 #include "../../animations/stick-reactive-animation.hpp"
 #include "const.h"
 
@@ -26,7 +26,7 @@ class AnimateState: public BasicState {
             ledController
         ),
         _armedAnimation(),
-        _disarmedAnimation(CHSV(0, 255, 255), 50, 200)
+        _disarmedAnimation(0, 255)
         {};
 
         void enter();
@@ -34,7 +34,7 @@ class AnimateState: public BasicState {
     
     private:
         StickReactiveAnimation _armedAnimation;
-        SingleColorBreathingAnimation _disarmedAnimation;
+        RainbowColorBreathingAnimation _disarmedAnimation;
         bluefairy::TaskNode *_updateTask;
         bluefairy::TaskNode *_lampTask;
         AnimationType _activeAnimation;
