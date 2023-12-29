@@ -37,14 +37,14 @@
 #define LED_MAX_MILLIAMPS 250
 
 #define LEFT_STICK_NUM_LEDS 35
-#define LEFT_STICK_LED_PIN 17
+#define LEFT_STICK_LED_PIN 16
 #define LEFT_STICK_LED_TYPE WS2812
 #define LEFT_STICK_LED_COLOR_ORDER GRB
 #define LEFT_STICK_LED_START_OFFSET -9
 #define LEFT_STICK_LED_IS_INVERTED false
 
 #define RIGHT_STICK_NUM_LEDS 35
-#define RIGHT_STICK_LED_PIN 16
+#define RIGHT_STICK_LED_PIN 17
 #define RIGHT_STICK_LED_TYPE WS2812
 #define RIGHT_STICK_LED_COLOR_ORDER GRB
 #define RIGHT_STICK_LED_START_OFFSET -8
@@ -52,11 +52,11 @@
 
 // https://github.com/FastLED/FastLED/wiki/Pixel-reference#setting-hsv-colors-
 #define BOOT_ANIMATION_DURATION_MS 3000
-// #define LED_BRIGHTNESS 255 // sets the brightness to a constant value if you dont want to use a channel
+#define LED_BRIGHTNESS 255 // sets the brightness to a constant value if you dont want to use a channel
 #define LED_MIN_DIMMED_BRIGHTNESS 70 // off is still 0, this is only for "dimmed" effects
 #define LED_MAX_BRIGHTNESS 255
 // comment out if you want to use a fixed brightness value from LED_BRIGHTNESS (above)
-#define LED_BRIGHTNESS_CHANNEL 9
+// #define LED_BRIGHTNESS_CHANNEL 9
 #define LED_BRIGHTNESS_CHANNEL_INVERTED true
 #define LED_FPS 120
 

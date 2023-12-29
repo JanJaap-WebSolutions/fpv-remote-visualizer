@@ -1,24 +1,33 @@
 # CRSF Visualizer
 
 ## What is this?
-This is an Open-Source project that aims to create a general purpose led controller (maybe other stuff as well in the future?) that reacts to channel values of an FPV Drone.
+This is an Open-Source project that aims to create a general purpose led controller (maybe other stuff as well in the future?) that reacts to channel values of an FPV Remote.
 We achieve this by connecting a standard Receiver (needs to use CRSF protocol, e.g. Crossfire or ELRS Receivers) which gets bound in parallel to the "main" drone receiver so that both receivers receive the same signals from the Remote Controller.
 
 ## What do you need?
-1. A transparent print of the Truerc Faceplate from [LetsFlyRC](https://www.youtube.com/@LetsFlyRC) (i used "[ABS Like Transparent Blue](https://www.3djake.com/elegoo/abs-like-resin-clear-blue?sai=13006)" Resin from Elegoo, but Transparent PETG for FDM printers should also work)
-    - [https://www.thingiverse.com/thing:5967835](https://www.thingiverse.com/thing:5967835)
-2. An ESP8266 or ESP32 micrcontroller
+1. An ESP8266 or ESP32 micrcontroller
     - i used this one from aliexpress [https://aliexpress.com](https://de.aliexpress.com/item/1005004341489110.html?spm=a2g0o.order_list.order_list_main.16.13115c5f8k60hf&gatewayAdapt=glo2deu) pay attention! there is also a RP2040 and a ESP32 C3 (not S3) version, i did not test the RP2040 and the C3 definitely didnt work for me as there was a timing issue with the leds which made them flicker all the time
     - you can also easily use an ESP8266, the code supports both (i tested it with a Wemos D1 mini) [https://amazon.de](https://www.amazon.de/PNGOS-ESP8266-ESP-12F-Internet-Development/dp/B0BVFT8DY7/ref=sr_1_3?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=ES8R3011K0U&keywords=wemos+d1+mini&qid=1684917622&sprefix=wemos+d1+mini%2Caps%2C112&sr=8-3)
-3. Some RGBIC leds (e.g. WS2812 or NEOPIXEL) that can run off 5V and fit inside the goggles. the "fit inside the goggles" is the biggest problem... in the end i bought some super small leds strips from aliexpress that fit PERFECTLY in the gap between the antenna housings and the faceplate walls
+2. Some RGBIC leds (e.g. WS2812 or NEOPIXEL) that can run off 5V and fit inside the transmitter case.
     - [https://aliexpress.com](https://de.aliexpress.com/item/4000744555910.html?spm=a2g0o.order_list.order_list_main.23.13115c5f8k60hf&gatewayAdapt=glo2deu)
-4. obviously some wires
+3. obviously some wires
+
+> for the Jumper T20s i created some "spacers" that fit between the case and the gimbals and you can wrap the LED Strip (3mm width) i mentioned above around them perfectly (you might have seen this on Facebook ^^) <br />
+this is the link to the stl, best to print it in transparent/translucent SLA, FDM might work as well but it didnt try that yet.
+<br />
+[Link to Onshape Design Files](https://cad.onshape.com/documents/9372b4ba1ccb6604f519de5e/w/c26dfce37e630742c9b69cd2/e/3f6f92aa5e4e4860853a745e?renderMode=0&uiState=658f0b8872334c18f213bce2)
+
 
 ## Hardware Connections
 
 ### How to power the setup?
-Great question, stupid simple solution.
-We grab the power from the internal fan of the Goggles it delivers enough current for the leds and the fan itself. (You do this on your own Risk, i am not responsible for any damage resulting from this or anything else mentioned on this page).
+The setup needs a constant 5V power source... How to grab power from your transmitter? Depends on your transmitter... So i cannot answer it for all Transmitters.
+For my Jumper T20s i found 2 viable solutions:
+
+1. "steal" it from the ELRS module by running the ESP in parallel to the Module
+2. get it from one of the two LED Ports on the internal PCB of the radio
+
+> If you dont know how to figure out which Pins are able to power this setup, this whole led project might be too much for you and you should either not do it, or let someone do it for you how knows more about electronics and stuff like this.
 
 ### Pins & Configuration
 all pins used for this project can be configured in the file `include/const.h`
@@ -29,20 +38,20 @@ you can for example set your home wifi ssid and password if you want to use your
 just take a look at that file to see what you can configure (there is quite a lot)
 
 ### RX
-by default this project uses pin `36` as RX and pin `35` as TX pins.
-connect your receivers `RX to 35` (tx)
-and your receivers `TX to 36` (rx)
+by default this project uses pin `5` as RX and pin `19` as TX pins.
+connect your receivers `RX to 19` (tx)
+and your receivers `TX to 5` (rx)
 you also need to connect your receivers `GND` and `5V/VCC` pad to the corresponding pads on the ESP.
 
 ### LEDS
-by default this project uses pin `16` to control the RGBIC leds (`16 leds` by default).
-Connect the `Data IN` pin of your leds to pin `16`,
+by default this project uses pin `16` and `17` to control the RGBIC leds (`35 leds each` by default).
+Connect the `Data IN` pins of your leds to pin `16` (left stick) and `17` (right stick),
 you also need to connect the `GND` pin of the leds to `GND` of the ESP.
 If you want to power your leds externally you need to connect + and - of the leds to your power supply,
 otherwise you need to connect + to 5V and - to GND of the Wemos D1.
 
-by default this project assumes you use `16 leds`.
-if you want to control a different amount of leds, change the `NUM_LEDS` variable in the `include/const.h` file accordingly.
+by default this project assumes you use `35 leds` per stick.
+if you want to control a different amount of leds, change the `LEFT_STICK_NUM_LEDS` and `RIGHT_STICK_NUM_LEDS` variables in the `include/const.h` file accordingly, same goes for chaning pins, color order, etc..
 
 ## RX Setup
 if you managed to get this working with an RX (type) that is not listed here, feel free to add instructions in a PR/issue :) 
@@ -82,8 +91,8 @@ The visualizer should start blinking blue or purple.
 - fast blue flashing = trying to connect to your wifi
 - slow blue flashign = connected to your wifi
 - slow purple flashing = hotspot mode active
-    - Default SSID: `CRSF Visualizer`
-    - Default Password: `jappy is awesome`
+    - Default SSID: `Remote Visualizer`
+    - Default Password: `blinkyblink`
 
 When connected to the hotspot, the esp's ip is `10.0.0.1`
 When connected to your local wifi, the ip cannot be known in advance, therefore you need to check your router to figure out whats the ip of the esp.
