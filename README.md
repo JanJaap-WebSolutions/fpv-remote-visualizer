@@ -15,8 +15,7 @@ We achieve this by connecting a standard Receiver (needs to use CRSF protocol, e
 > for the Jumper T20s i created some "spacers" that fit between the case and the gimbals and you can wrap the LED Strip (3mm width) i mentioned above around them perfectly (you might have seen this on Facebook ^^) <br />
 this is the link to the stl, best to print it in transparent/translucent SLA, FDM might work as well but it didnt try that yet.
 <br />
-
-[Link to Onshape Design Files](https://cad.onshape.com/documents/9372b4ba1ccb6604f519de5e/w/c26dfce37e630742c9b69cd2/e/3f6f92aa5e4e4860853a745e?renderMode=0&uiState=658f0b8872334c18f213bce2)
+> [Link to Onshape Design Files](https://cad.onshape.com/documents/9372b4ba1ccb6604f519de5e/w/c26dfce37e630742c9b69cd2/e/3f6f92aa5e4e4860853a745e?renderMode=0&uiState=658f0b8872334c18f213bce2)
 
 
 ## Hardware Connections
